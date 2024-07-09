@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
         public string answer;
     }
 
+    int goodQuestion_Counter = 0;
+    int badQuestion_Counter = 0;
+    float questionTimer = 0;
+
     public Dictionary<int, Question> questionsByNumber;
     public Dictionary<string, List<Question>> questionsByCategory;
     [SerializeField] private List<Question> questionsListByNumber;
@@ -24,8 +28,8 @@ public class GameManager : MonoBehaviour
     {
         LoadQuestions();
         OrganizeQuestionsByCategory();
-        UpdateInspectorLists();
-        DebugQuestions();
+        //UpdateInspectorLists();
+        //DebugQuestions();
     }
 
     void LoadQuestions()
