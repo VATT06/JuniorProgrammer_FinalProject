@@ -23,18 +23,46 @@ public class GameManager : MonoBehaviour
     public Dictionary<string, List<Question>> questionsByCategory;
     [SerializeField] private List<Question> questionsListByNumber;
     [SerializeField] private List<Question> questionsListByCategory;
+    private UiManager uiManager;
+    public int GoodQuestionCounter => goodQuestion_Counter;
+    public int BadQuestionCounter => badQuestion_Counter;
 
     void Start()
     {
+        uiManager = FindObjectOfType<UiManager>();
         LoadQuestions();
         OrganizeQuestionsByCategory();
-        //UpdateInspectorLists();
-        //DebugQuestions();
+        UpdateInspectorLists();
+        LoadNextQuestion();
+    }
+
+    public void LoadNextQuestion()
+    {
+        // Get random question
+        int randomIndex = Random.Range(0, questionsListByNumber.Count);
+        Question currentQuestion = questionsListByNumber[randomIndex];
+
+        // Shuffle options
+        List<string> shuffledOptions = new List<string>(currentQuestion.options);
+        for (int i = shuffledOptions.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            string temp = shuffledOptions[i];
+            shuffledOptions[i] = shuffledOptions[j];
+            shuffledOptions[j] = temp;
+        }
+
+        // Find correct answer index
+        int correctAnswerIndex = shuffledOptions.IndexOf(currentQuestion.answer);
+
+        // Update UI
+        uiManager.DisplayQuestion(currentQuestion, shuffledOptions, correctAnswerIndex);
     }
 
     void LoadQuestions()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, "questions_Enurm.json");
+        // Modificado para buscar en la carpeta StreamingAssets
+        string filePath = Path.Combine(Application.dataPath, "StreamingAssets/questions_Enurm.json");
         if (File.Exists(filePath))
         {
             string dataAsJson = File.ReadAllText(filePath);
@@ -84,16 +112,16 @@ public class GameManager : MonoBehaviour
 
     void DebugQuestions()
     {
-        Debug.Log("Preguntas por Número:");
+        Debug.Log("Preguntas por Nï¿½mero:");
         foreach (var kvp in questionsByNumber)
         {
             Debug.Log($"ID: {kvp.Key}, Pregunta: {kvp.Value.question}");
         }
 
-        Debug.Log("Preguntas por Categoría:");
+        Debug.Log("Preguntas por Categorï¿½a:");
         foreach (var category in questionsByCategory)
         {
-            Debug.Log($"Categoría: {category.Key}");
+            Debug.Log($"Categorï¿½a: {category.Key}");
             foreach (var question in category.Value)
             {
                 Debug.Log($"  ID: {question.id}, Pregunta: {question.question}");
@@ -110,5 +138,15 @@ public class GameManager : MonoBehaviour
         {
             questionsListByCategory.AddRange(list);
         }
+    }
+
+    public void IncrementGoodCounter()
+    {
+        goodQuestion_Counter++;
+    }
+
+    public void IncrementBadCounter()
+    {
+        badQuestion_Counter++;
     }
 }

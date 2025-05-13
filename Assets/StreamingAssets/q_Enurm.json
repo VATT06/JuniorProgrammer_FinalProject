@@ -1,0 +1,25 @@
+{
+    "questions": [
+        {
+            "id": 1,
+            "category": "infectología",
+            "question": "¿Cuál es el antibiótico de elección para combatir el estreptococo beta hemolítico?",
+            "options": ["tobramicina", "penicilina", "tetraciclina", "carbencilina"],
+            "answer": "penicilina"
+        },
+        {
+            "id": 2,
+            "category": "infectología",
+            "question": "¿Qué % de hemocultivos en pacientes con septicemia dan positivo?",
+            "options": ["10-20%", "20-40%", "40-70%", "50-80%"],
+            "answer": "20-40%"
+        },
+        {
+            "id": 3,
+            "category": "infectología",
+            "question": "¿El diagnóstico esencial de la endocarditis infecciosa se hace por?",
+            "options": ["hemograma", "cultivo de garganta", "hemocultivo", "Radiografía de tórax"],
+            "answer": "hemocultivo"
+        }
+    ]
+}
